@@ -62,11 +62,18 @@ Add it in your portal profile.\n` +
   },
   [constants.COMMANDS.ORDER_GROCERY]: async (msg, match, bot) => {
     const chatId = msg.chat.id;
+    const responeseOptions = groceryResponseOptions;
+    const gorceryList = await dbDataService.getGroceryList();
+    responeseOptions.reply_markup = JSON.stringify({
+      inline_keyboard: gorceryList.map((grocery) => [
+        { text: grocery.name, callback_data: "order_grocery:" + grocery.id },
+      ]),
+    });
 
     bot.sendMessage(
       chatId,
       "Please, select the grocery type:",
-      groceryResponseOptions
+      responeseOptions
     );
   },
   [constants.COMMANDS.GROCERY_ORDERED]: async (msg, match, bot) => {

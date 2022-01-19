@@ -37,12 +37,15 @@ bot.on("callback_query", async function onCallbackQuery(callbackQuery) {
 
   const [action, type] = callbackQuery.data.split(":");
   let resp = "Not a grocery!";
-
+  const groceryItem = await dbDataService.getGroceryList().then((data) => {
+    return data.find((groceryItem) => groceryItem.id == type);
+  });
+  console.log(groceryItem);
   if (action === "order_grocery") {
-    resp = `${type} is ordered!!!`;
+    resp = `${groceryItem.name} is ordered!!!`;
   }
   const managers = await dbDataService.getManagers();
-  const adminResponse = `Please, buy ${type}`;
+  const adminResponse = `Please, buy ${groceryItem.name}`;
   managers
     .map((manager) => manager.chatId)
     .forEach((adminChatId) => {

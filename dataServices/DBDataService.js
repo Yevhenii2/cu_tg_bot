@@ -31,7 +31,10 @@ class DBDataService {
   async getUsersId() {
     return await this.knex("users").select("chatId");
   }
+  async getGroceryList() {
+    return await this.knex("grocery").select("*");
+  }
 }
 
-const dbDataService = new DBDataService(knexConfig);
+const dbDataService = new DBDataService(knexConfig[process.env.ENV]);
 module.exports = { dbDataService };

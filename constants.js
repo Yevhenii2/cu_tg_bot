@@ -28,11 +28,7 @@ const gorceryList = [
   { name: "Sugar", id: "order_grocery:Sugar" },
 ];
 const groceryResponseOptions = {
-  reply_markup: JSON.stringify({
-    inline_keyboard: gorceryList.map((grocery) => [
-      { text: grocery.name, callback_data: grocery.id },
-    ]),
-  }),
+  reply_markup: "",
   parse_mode: "HTML",
 };
 const groceryOrderedOptions = {
