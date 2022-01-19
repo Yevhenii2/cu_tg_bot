@@ -1,0 +1,19 @@
+{
+  "name": "cu_online_bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for checking emlployee's online status",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Yevhenii Shlapak",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^11.0.0",
+    "mysql": "^2.15.0",
+    "knex": "^0.14.6",
+    "log4js": "^6.3.0",
+    "node-telegram-bot-api": "^0.56.0"
+  }
+}
