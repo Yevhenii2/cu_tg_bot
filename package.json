@@ -1,11 +1,13 @@
 {
   "name": "cu_online_bot",
   "version": "1.0.0",
-  "description": "Telegram bot for checking emlployee's online status",
+  "description": "Telegram bot for office service",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "migrate": "knex --knexfile ./knexfile.js migrate:latest",
+    "seed": "knex --knexfile ./knexfile.js seed:run"
   },
   "author": "Yevhenii Shlapak",
   "license": "ISC",

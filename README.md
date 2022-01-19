@@ -19,4 +19,4 @@
 
 ## Developer guide
 
-**Commands description:** 14.17.0
+**NODE version** (_node -v_): 14.17.0

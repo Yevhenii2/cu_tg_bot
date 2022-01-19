@@ -1,27 +1,10 @@
 const knex = require("knex");
+const knexConfig = require("../knexfile");
 require("dotenv").config();
 
-const defaultConfig = {
-  USERNAME: "CodeUnityTgBot",
-  PASSWORD: "CodeUnityTgBot_123",
-  DATABASE: "CodeUnityTgBot",
-  HOST: "127.0.0.1",
-  PORT: "80",
-};
 class DBDataService {
-  constructor(config) {
-    this.config = Object.assign(defaultConfig, config); // HERS's everything is good
-    this.knex = knex({
-      client: "mysql",
-      connection: {
-        host: this.config.HOST,
-        port: this.config.PORT,
-        user: this.config.USERNAME,
-        password: this.config.PASSWORD,
-        database: this.config.DATABASE,
-      },
-      pool: { min: 0, max: 7 },
-    });
+  constructor(knexConfig) {
+    this.knex = knex(knexConfig);
   }
   async getManagers() {
     const managers = await this.knex
@@ -49,12 +32,6 @@ class DBDataService {
     return await this.knex("users").select("chatId");
   }
 }
-const databaseConfiguration = {
-  USERNAME: process.env.MYSQL_USERNAME,
-  PASSWORD: process.env.MYSQL_PASSWORD,
-  DATABASE: process.env.MYSQL_DATABASE,
-  HOST: process.env.MYSQL_HOST,
-  PORT: process.env.MYSQL_PORT,
-};
-const dbDataService = new DBDataService(databaseConfiguration);
+
+const dbDataService = new DBDataService(knexConfig);
 module.exports = { dbDataService };
