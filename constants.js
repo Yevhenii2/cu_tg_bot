@@ -31,10 +31,8 @@ const groceryResponseOptions = {
   reply_markup: "",
   parse_mode: "HTML",
 };
-const groceryOrderedOptions = {
-  reply_markup: JSON.stringify({
-    keyboard: [[constants.COMMANDS.GROCERY_ORDERED]],
-  }),
+const groceryConfirmedOptions = {
+  reply_markup: "",
   parse_mode: "HTML",
 };
 module.exports = {
@@ -42,5 +40,5 @@ module.exports = {
   responseOptions,
   gorceryList,
   groceryResponseOptions,
-  groceryOrderedOptions,
+  groceryConfirmedOptions,
 };
