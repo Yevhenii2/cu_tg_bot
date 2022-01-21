@@ -22,14 +22,14 @@
 **NODE version** (_node -v_): 14.17.0
 
 ### Setup toutorial
-1. Clone the GitHub repository.
+1. Clone the [GitHub repository](https://github.com/Yevhenii2/cu_tg_bot "GitHub repository").
 ```bash
 #SSH
 git clone git@github.com:Yevhenii2/cu_tg_bot.git
 # or HTTPS
 git clone https://github.com/Yevhenii2/cu_tg_bot.git
 ```
-2. Change you *NodeJS* version to **14.17.0** via *[NVM](https://github.com/nvm-sh/nvm "NVM")*.
+2. Change you *[NodeJS](https://nodejs.org/ "NodeJS")* version to **14.17.0** via *[NVM](https://github.com/nvm-sh/nvm "NVM")*.
 ```bash
 nvm install 14.17.0
 nvm use 14.17.0
@@ -41,7 +41,7 @@ node -v
 npm install
 ```
 4. Create file called `.env` using file `.env.example` as ~~*(what?)*~~ an example.
-5. Make sure that `knex` is installed globaly.
+5. Make sure that Knex.js ( [npm](https://www.npmjs.com/package/knex "npm") | [documentation](https://knexjs.org/ "documentation") ) is installed globaly.
 ```bash
 knex -V
 # Output: Knex CLI version: 1.0.1
@@ -60,8 +60,6 @@ npm run migrate
 ```bash
 npm run start
 ```
-
-
 
 
 
