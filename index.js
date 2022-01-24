@@ -38,19 +38,38 @@ bot.on("callback_query", async function onCallbackQuery(callbackQuery) {
 
   const [action, type] = callbackQuery.data.split(":");
   let resp = "Not a grocery!";
-  const groceryItem = await dbDataService.getGroceryList().then((data) => {
-    return data.find((groceryItem) => groceryItem.id == type);
-  });
+  const openOrders = await dbDataService.getOpenOrders();
+  const groceryItem = await dbDataService.getGroceryById(type);
   if (action === "order_grocery") {
     resp = `${groceryItem.name} is ordered!!!`;
     const newOrder = {
       orderedBy: chatId,
       whatOrdered: groceryItem.id,
     };
+    const openedGroceryOrder = await dbDataService.getOpenOrderByGroceryId(
+      groceryItem.id
+    );
+    const lastOrderByGrocery = await dbDataService.getLastOrderedByGroceryId(
+      groceryItem.id
+    );
+
+    if (
+      openedGroceryOrder.length ||
+      (lastOrderByGrocery && isToday(lastOrderByGrocery.whenOrdered))
+    ) {
+      bot.sendMessage(
+        chatId,
+        `${groceryItem.name} is already ordered today`,
+        responseOptions
+      );
+      return false;
+    }
+
     await dbDataService.createOrder(newOrder);
     const openOrders = await dbDataService.getOpenOrders();
     const adminResponse = `Please, buy ${groceryItem.name}`;
     const managerReplyOptions = groceryConfirmedOptions;
+
     managerReplyOptions.reply_markup = JSON.stringify({
       inline_keyboard: openOrders.map((openOrder) => [
         {
@@ -65,17 +84,17 @@ bot.on("callback_query", async function onCallbackQuery(callbackQuery) {
         bot.sendMessage(adminChatId, adminResponse, groceryConfirmedOptions);
       });
 
-    logger.info(`${from}: Orders ${type}`);
+    logger.info(`${from}: Orders ${groceryItem.name}`);
     bot.sendMessage(chatId, resp, responseOptions);
   } else if (action === "confirm_grocery") {
     const confirmedOrder = await dbDataService.confirmOrder(type, chatId);
+    const openOrders = await dbDataService.getOpenOrders();
     const groceryItem = await dbDataService.getGroceryById(
       confirmedOrder.whatOrdered
     );
     const confirmedUser = await dbDataService.getUserByChatId(
       confirmedOrder.confirmedBy
     );
-    const openOrders = await dbDataService.getOpenOrders();
     const managerReplyOptions = groceryConfirmedOptions;
     managerReplyOptions.reply_markup = JSON.stringify({
       inline_keyboard: openOrders.map((openOrder) => [
@@ -95,13 +114,25 @@ bot.on("callback_query", async function onCallbackQuery(callbackQuery) {
             groceryConfirmedOptions
           );
         });
+    } else {
+      bot.sendMessage(chatId, "Thank you!", responseOptions);
     }
     bot.sendMessage(
       confirmedOrder.orderedBy,
-      `${groceryItem[0].name} is confirmed by ${confirmedUser[0].userName}`,
+      `${groceryItem.name} is confirmed by ${confirmedUser.userName}`,
       responseOptions
     );
+    logger.info(`${from}: Confirms ${groceryItem.name}`);
   }
 });
 
 bot.on("polling_error", console.log);
+
+const isToday = (someDate) => {
+  const today = new Date();
+  return (
+    someDate.getDate() == today.getDate() &&
+    someDate.getMonth() == today.getMonth() &&
+    someDate.getFullYear() == today.getFullYear()
+  );
+};

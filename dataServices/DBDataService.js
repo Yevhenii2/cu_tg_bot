@@ -43,16 +43,14 @@ class DBDataService {
       .where("confirmedBy", null);
   }
   async getOrderById(id) {
-    return await this.knex("orders").select("*").where({ id });
+    return await this.knex("orders").select("*").where({ id }).first();
   }
   async confirmOrder(orderId, confirmedBy) {
     await this.knex("orders").where({ id: orderId }).update({ confirmedBy });
     const confirmedOrder = await this.getOrderById(orderId);
-    const groceryItem = await this.getGroceryById(
-      confirmedOrder[0].whatOrdered
-    );
-    this.iterateGroceryItem(groceryItem[0]);
-    return Object.assign(confirmedOrder[0], { confirmedBy });
+    const groceryItem = await this.getGroceryById(confirmedOrder.whatOrdered);
+    this.iterateGroceryItem(groceryItem);
+    return Object.assign(confirmedOrder, { confirmedBy });
   }
   async iterateGroceryItem(groceryItem) {
     await this.knex("grocery")
@@ -63,17 +61,29 @@ class DBDataService {
         })
       );
   }
+  async getLastOrderedByGroceryId(whatOrdered) {
+    return await this.knex("orders")
+      .select("*")
+      .where({ whatOrdered })
+      .orderBy("whenOrdered", "desc")
+      .first();
+  }
   async getUserByChatId(chatId) {
-    return await this.knex("users").select("*").where({ chatId });
+    return await this.knex("users").select("*").where({ chatId }).first();
   }
   async getGroceryById(id) {
-    return await this.knex("grocery").select("*").where({ id });
+    return await this.knex("grocery").select("*").where({ id }).first();
   }
   async getUsersId() {
     return await this.knex("users").select("chatId");
   }
   async getGroceryList() {
     return await this.knex("grocery").select("*");
+  }
+  async getOpenOrderByGroceryId(whatOrdered) {
+    return await this.knex("orders")
+      .select("*")
+      .where({ whatOrdered, confirmedBy: null });
   }
 }
 

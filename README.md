@@ -22,45 +22,56 @@
 **NODE version** (_node -v_): 14.17.0
 
 ### Setup toutorial
+
 1. Clone the [GitHub repository](https://github.com/Yevhenii2/cu_tg_bot "GitHub repository").
+
 ```bash
 #SSH
 git clone git@github.com:Yevhenii2/cu_tg_bot.git
 # or HTTPS
 git clone https://github.com/Yevhenii2/cu_tg_bot.git
 ```
-2. Change you *[NodeJS](https://nodejs.org/ "NodeJS")* version to **14.17.0** via *[NVM](https://github.com/nvm-sh/nvm "NVM")*.
+
+2. Change you _[NodeJS](https://nodejs.org/ "NodeJS")_ version to **14.17.0** via _[NVM](https://github.com/nvm-sh/nvm "NVM")_.
+
 ```bash
 nvm install 14.17.0
 nvm use 14.17.0
 node -v
 # Output: v14.17.0
 ```
+
 3. Enter the project directory and install all the packages.
+
 ```bash
 npm install
 ```
-4. Create file called `.env` using file `.env.example` as ~~*(what?)*~~ an example.
+
+4. Create file called `.env` using file `.env.example` as ~~_(what?)_~~ an example.
 5. Make sure that Knex.js ( [npm](https://www.npmjs.com/package/knex "npm") | [documentation](https://knexjs.org/ "documentation") ) is installed globaly.
+
 ```bash
 knex -V
 # Output: Knex CLI version: 1.0.1
 # Output: Knex Local version: 0.14.6
 ```
-If not install it using *NPM*.
+
+If not, install it using _NPM_.
+
 ```bash
 npm install knex -g
 ```
+
 Relaunch the terminal and check you knex version once again.
+
 6. Come back to your project directory. Run migrations to create tables in your database.
+
 ```bash
 npm run migrate
 ```
+
 7. As migrations were done, you can strart the project.
+
 ```bash
 npm run start
 ```
-
-
-
-
