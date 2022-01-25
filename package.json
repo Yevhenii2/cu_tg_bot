@@ -12,10 +12,11 @@
   "author": "Yevhenii Shlapak",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.25.0",
     "dotenv": "^11.0.0",
-    "mysql": "^2.15.0",
     "knex": "^0.14.6",
     "log4js": "^6.3.0",
+    "mysql": "^2.15.0",
     "node-telegram-bot-api": "^0.56.0"
   }
 }

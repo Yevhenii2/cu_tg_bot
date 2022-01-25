@@ -6,7 +6,7 @@ const {
 const DataService = require("./dataServices/mockDataService").DataService;
 const { getUserOnlineString } = require("./tools");
 const { dbDataService } = require("./dataServices/DBDataService");
-const { logger } = require("./logger");
+const { userInputLogger } = require("./logger");
 
 require("dotenv").config();
 

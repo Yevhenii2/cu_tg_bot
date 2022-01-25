@@ -1,7 +1,7 @@
 const TelegramBot = require("node-telegram-bot-api");
 const responseCallbacks = require("./responseCallbacks");
 const { responseOptions, groceryConfirmedOptions } = require("./constants");
-const { logger } = require("./logger");
+const { userInputLogger } = require("./logger");
 const { dbDataService } = require("./dataServices/DBDataService");
 const { isToday } = require("./tools");
 require("dotenv").config();
@@ -16,7 +16,7 @@ bot.onText(/./, async (msg, match) => {
   if (!usersId.map((user) => user.chatId).includes(chatId)) {
     bot.sendMessage(chatId, "You're not welcome");
     const { username } = msg.from;
-    logger.warn(`${chatId} ${username} ${msg.text}`);
+    userInputLogger.warn(`${chatId} ${username} ${msg.text}`);
     return false;
   }
 
@@ -26,7 +26,7 @@ bot.onText(/./, async (msg, match) => {
 
   const text = msg.text;
   const from = msg.from.first_name;
-  logger.info(`${from}: ${text}`);
+  userInputLogger.info(`${from}: ${text}`);
 });
 
 bot.on("callback_query", async function onCallbackQuery(callbackQuery) {
@@ -125,7 +125,7 @@ bot.on("callback_query", async function onCallbackQuery(callbackQuery) {
       responseOptions
     );
   }
-  logger.info(`${from}: ${action}:${type}`);
+  userInputLogger.info(`${from}: ${action}:${type}`);
 });
 
 bot.on("polling_error", console.log);
